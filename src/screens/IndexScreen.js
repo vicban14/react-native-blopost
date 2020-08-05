@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-const IndexScreen = () => {
+function IndexScreen() {
   return (
     <View>
       <Text>Index</Text>
