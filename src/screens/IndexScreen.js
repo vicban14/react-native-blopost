@@ -4,7 +4,7 @@ import { Context } from '../context/BlogContext'
 import { Feather } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-function IndexScreen() {
+function IndexScreen({ navigation }) {
   const { state, addBlogPost, deleteBlogPost } = useContext(Context)
 
   return (
@@ -15,19 +15,33 @@ function IndexScreen() {
         keyExtractor={(blogPost) => blogPost.title}
         renderItem={({ item }) => {
           return (
-            <View style={styles.row}>
-              <Text style={styles.text}>
-                {item.title} - {item.id}
-              </Text>
-              <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
-                <Feather name='trash' style={styles.icon} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Show', { id: item.id })}
+            >
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                  {item.title} - {item.id}
+                </Text>
+                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                  <Feather name='trash' style={styles.icon} />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
           )
         }}
       />
     </View>
   )
+}
+
+IndexScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+        <Feather name='plus-circle' size={20} style={styles.plusIcon} />
+      </TouchableOpacity>
+    ),
+  }
 }
 
 const styles = StyleSheet.create({
@@ -44,6 +58,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 24,
+  },
+  plusIcon: {
+    marginRight: 10,
   },
 })
 
