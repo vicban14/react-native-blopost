@@ -39,13 +39,15 @@ function addBlogPost(dispatch) {
 }
 
 function deleteBlogPost(dispatch) {
-  return (id) => {
+  return async (id) => {
+    await jsonServer.delete(`/blogPost/${id}`)
     dispatch({ type: 'delete_blogPost', payload: id })
   }
 }
 
 function editBlogPost(dispatch) {
-  return (title, content, id, callbackNavigation) => {
+  return async (title, content, id, callbackNavigation) => {
+    await jsonServer.put(`/blogPost/${id}`, { title, content })
     dispatch({ type: 'edit_blogPost', payload: { title, content, id } })
     callbackNavigation()
   }
